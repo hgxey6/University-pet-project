@@ -1,6 +1,0 @@
-Проект начало.
-
-Отчет изменении.
-
-Added Maven and dependencies 
-
