@@ -6,5 +6,5 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface PersonDao {
-    List<Person> findPerson(String pattern) throws SQLException;
+    List<Person> searchByFullName(String pattern) throws SQLException;
 }

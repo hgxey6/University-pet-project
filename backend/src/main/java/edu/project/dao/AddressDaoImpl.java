@@ -12,36 +12,34 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PersonDaoImpl implements PersonDao {
+public class AddressDaoImpl implements AddressDao {
 
     private static final Logger logger = LoggerFactory.getLogger(PersonDaoImpl.class);
 
-    private static final String GET_PERSON_BY_FULL_NAME =
+    private static final String GET_PERSON_BY_ADDRESS =
             "SELECT person_name, person_surname, person_patronymic, " +
                     "person_date_of_birth, person_sex, " +
                     "person_number, person_email, " +
                     "country, city, street, building, apartment " +
                     "FROM person LEFT OUTER JOIN address " +
                     "ON(person.person_address_id = address.address_id) " +
-                    "WHERE UPPER(person_name) LIKE UPPER(?) OR " +
-                    "UPPER(person_surname) LIKE UPPER(?) OR " +
-                    "UPPER(person_patronymic) LIKE UPPER(?);";
-
-
+                    "WHERE UPPER(country) LIKE UPPER(?) OR " +
+                    "UPPER(city) LIKE UPPER(?) OR " +
+                    "UPPER(street) LIKE UPPER(?);";
 
     private Connection getConnection() throws SQLException {
         return ConnectionBuilder.getConnection();
     }
 
-    @Override
-    public List<Person> searchByFullName(String pattern) throws SQLException {
+    public List<Person> findAddress(String pattern) throws SQLException {
         List<Person> result = new LinkedList<>();
         try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(GET_PERSON_BY_FULL_NAME)) {
+             PreparedStatement stmt = con.prepareStatement(GET_PERSON_BY_ADDRESS)) {
 
             stmt.setString(1, "%" + pattern + "%");
             stmt.setString(2, "%" + pattern + "%");
             stmt.setString(3, "%" + pattern + "%");
+
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
